@@ -5,41 +5,61 @@
 //Bonus- can you do it in one pass?
 
 using System;
+using System.Collections;
+
 namespace ArrayWithK
 {
     class Program
     {
-        public static bool combinationK(int[] arrValues, int k)
+        public static bool doubleLoop(int[] arrValues, int k)
         {
-            var totalLength = arrValues.Length - 1;
-
-            for (var i = 0; i < totalLength; i++)
-            {
-                if (i == totalLength - i)
-                    continue;
-
-                if (arrValues[i] + arrValues[totalLength - i] == k)
-                    return true;
-            }
-
-            return false;
+			var totalLength = arrValues.Length - 1;
+			
+			for(var i = 0; i <= totalLength; i++) {
+				for (var j = i +1; j <= totalLength; j++)
+				{
+					if (arrValues[i] + arrValues[j] == k)
+						return true;
+				}
+			}
+			
+			return false;
         }
-
+		
+		public static bool thePincer(int[] arrValues, int k)
+        {
+			Array.Sort(arrValues);
+			
+			var min = 0;
+			var max = arrValues.Length -1;
+			
+			while(min < max) {
+				if (arrValues[min] + arrValues[max] > k)
+					max --;
+				else if (arrValues[min]+ arrValues[max] < k)
+					min ++;
+				else if (arrValues[min]+ arrValues[max] == k)
+					return true;		
+			}
+			
+			return false;
+        }
+			
         static void Main(string[] args)
         {
-            int[][] testSet = new int[][]
-            {
-              new int[]{10,15,3,7},
-              new int[]{20,6,9,5},
-              new int[]{13,14,2,18},
-              new int[]{10,15,5,3,7}
-            };
-            int[] kSet = new int[4]
-            {17, 25, 32, 10};
+            var testCases = new List<(int[] values, int result, bool expectedOutcome)> {
+				(new int[]{10,15,3,7}, 17, true),
+				(new int[]{20,6,9,5}, 25, true),
+				(new int[]{13,14,2,18}, 32, true),
+				(new int[]{10,15,5,3,7}, 10, true),
+				(new int[]{1,2,9,12}, 10, true),
+				(new int[]{12,9,2,1}, 10, true),
+				(new int[]{1,2,12,9}, 10, true),
+			};
 
-            for (int testIndex = 0; testIndex < kSet.Length; testIndex++)
-            {
-                Console.WriteLine(combinationK(testSet[testIndex], kSet[testIndex]));
+            foreach(var testCase in testCases)
+			{
+                Console.WriteLine($"Test Result : {thePincer(testCase.values, testCase.result) == testCase.expectedOutcome}");
             }
         }
     }
