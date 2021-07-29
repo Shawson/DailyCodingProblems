@@ -11,6 +11,26 @@ namespace ArrayWithK
 {
     class Program
     {
+	public static bool rememberMe(int[] arrValues, int k)
+        {
+			var register = new bool[k + 1];
+			
+			var totalLength = arrValues.Length - 1;
+			
+			for(var i = 0; i <= totalLength; i++) {
+				if (arrValues[i] > k)
+					continue;
+					
+				if (arrValues[i] <= k)
+					register[arrValues[i]]=true;
+					
+				if (register[k - arrValues[i]] == true)
+					return true;
+			}
+			
+			return false;
+        }
+	    
         public static bool doubleLoop(int[] arrValues, int k)
         {
 			var totalLength = arrValues.Length - 1;
@@ -56,11 +76,13 @@ namespace ArrayWithK
 				(new int[]{1,2,9,12}, 10, true),
 				(new int[]{12,9,2,1}, 10, true),
 				(new int[]{1,2,12,9}, 10, true),
+				(new int[]{4,2,12,9}, 10, false),
+				(new int[]{0,20,12,16}, 10, false),
 			};
 
             foreach(var testCase in testCases)
-			{
-                Console.WriteLine($"Test Result : {thePincer(testCase.values, testCase.result) == testCase.expectedOutcome}");
+	    {
+                Console.WriteLine($"Test Result : {rememberMe(testCase.values, testCase.result) == testCase.expectedOutcome}");
             }
         }
     }
