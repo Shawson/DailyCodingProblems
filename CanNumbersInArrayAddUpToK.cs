@@ -26,7 +26,7 @@ namespace ArrayWithK
 			return false;
         }
 		
-		public static bool thePincer(int[] arrValues, int k)
+	public static bool thePincer(int[] arrValues, int k)
         {
 			Array.Sort(arrValues);
 			
@@ -34,12 +34,13 @@ namespace ArrayWithK
 			var max = arrValues.Length -1;
 			
 			while(min < max) {
-				if (arrValues[min] + arrValues[max] > k)
+				if (arrValues[min]+ arrValues[max] == k)
+					return true;	
+				else if (arrValues[min] + arrValues[max] > k)
 					max --;
 				else if (arrValues[min]+ arrValues[max] < k)
 					min ++;
-				else if (arrValues[min]+ arrValues[max] == k)
-					return true;		
+					
 			}
 			
 			return false;
