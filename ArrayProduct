@@ -1,0 +1,69 @@
+// Given and array if integers, return a new array such that each element 
+// at index i of the new array is the product of all the numbers in the 
+// original array except the one at i
+// Bonus: what if you can't use division?
+
+using System;
+using System.Collections;
+using System.Linq;
+
+namespace UberArrayProduct
+{
+    class Program
+    {
+		public static int[] divideAndConquer(int[] arrValues)
+        {
+			var totalLength = arrValues.Length - 1;
+		
+			var newArray = new int[arrValues.Length];
+
+			int totalProduct = arrValues[0];
+			
+			for(var i = 1; i <= totalLength; i++) {
+				totalProduct *= arrValues[i];
+			}
+			
+			for(var i = 0; i <= totalLength; i++) {
+				newArray[i] = totalProduct / arrValues[i];
+			}
+			
+			return newArray;
+        }
+		
+		public static int[] loopDeLoop(int[] arrValues)
+        {
+			var totalLength = arrValues.Length - 1;
+		
+			var newArray = new int[arrValues.Length];
+
+			for(var i = 0; i <= totalLength; i++) {
+				for(var j = 0; j <= totalLength; j++) {
+				
+					if (i == j) continue;
+					
+					if (newArray[i] == 0)
+						newArray[i] = arrValues[j];
+					else
+						newArray[i] *= arrValues[j];
+				}
+			}
+
+			return newArray;
+        }
+		
+			
+        static void Main(string[] args)
+        {
+            var testCases = new List<(int[] values, int[] result)> {
+				(new int[]{1,2,3,4,5}, new int[] {120,60,40,30,24}),
+				(new int[]{3,2,1}, new int[] {2,3,6}),
+			};
+
+            foreach(var testCase in testCases)
+			{
+                Console.WriteLine($"Test Result : {loopDeLoop(testCase.values).SequenceEqual(testCase.result)}");
+            }
+        }
+		
+    }
+}
